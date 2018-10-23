@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/activity_splash_layout">
 
 
     <TextView
@@ -10,16 +11,18 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="@string/app_name"
-        android:textSize="40dip"/>
+        android:textSize="40dip" />
 
     <TextView
-        android:layout_width="150dip"
+        android:id="@+id/game_description"
+        android:layout_width="150dp"
         android:textSize="10dip"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/game_title"
         android:text="@string/subtitle"
         android:textAlignment="center"
+        android:alpha="0"
         android:layout_marginTop="50dip"/>
 
 </RelativeLayout>

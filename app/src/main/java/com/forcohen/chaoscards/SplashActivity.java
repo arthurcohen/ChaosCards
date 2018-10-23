@@ -1,41 +1,119 @@
 package com.forcohen.chaoscards;
 
+import android.animation.Animator;
+import android.animation.FloatEvaluator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 
 public class SplashActivity extends Activity {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        Typeface gameFont = Typeface.createFromAsset(getAssets(), "fonts/gothic.ttf");
-
-        TextView gameTitle = (TextView) findViewById(R.id.game_title);
-
-//        if (gameFont != null)
-//            gameTitle.setTypeface(gameFont);
-
-        try {
-            Log.i("assets", "showing");
-            for (String f : getAssets().list("")){
-                Log.i("assets", f);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_splash);
+
+        Typeface gameDescriptionFont = Typeface.createFromAsset(getAssets(), "fonts/Cinzel-Regular.ttf");
+        Typeface gameTitleFont = Typeface.createFromAsset(getAssets(), "fonts/CinzelDecorative-Bold.ttf");
+        final TextView gameTitle = (TextView) findViewById(R.id.game_title);
+        final TextView gameDescription = (TextView) findViewById(R.id.game_description);
+
+        if (gameTitleFont != null)
+            gameTitle.setTypeface(gameTitleFont);
+
+
+        if (gameDescriptionFont != null)
+            gameDescription.setTypeface(gameDescriptionFont);
+
+        final Intent homePageIntent = new Intent(this, MainActivity.class);
+
+        final ValueAnimator alphaAnimation = ValueAnimator.ofFloat(0, 1);
+        alphaAnimation.setDuration(2000);
+        alphaAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Log.i("alpha", String.valueOf((float) animation.getAnimatedValue()));
+                gameDescription.setAlpha((float) animation.getAnimatedValue());
+            }
+        });
+
+        alphaAnimation.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                startActivity(homePageIntent);
+                finish();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        float textSize = gameTitle.getTextSize();
+        ValueAnimator textAnimation = ValueAnimator.ofFloat(textSize, (textSize * 1.2f));
+        textAnimation.setDuration(2000);
+        textAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                gameTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) animation.getAnimatedValue());
+            }
+        });
+
+        textAnimation.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                alphaAnimation.start();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        textAnimation.start();
+
+        findViewById(R.id.activity_splash_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(homePageIntent);
+                finish();
+            }
+        });
 
     }
 
