@@ -24,6 +24,7 @@ public class SplashActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
         setContentView(R.layout.activity_splash);
 
@@ -39,7 +40,7 @@ public class SplashActivity extends Activity {
         if (gameDescriptionFont != null)
             gameDescription.setTypeface(gameDescriptionFont);
 
-        final Intent homePageIntent = new Intent(this, MainActivity.class);
+        final Intent homePageIntent = new Intent(this, LoginActivity.class);
 
         final ValueAnimator alphaAnimation = ValueAnimator.ofFloat(0, 1);
         alphaAnimation.setDuration(2000);
@@ -60,6 +61,7 @@ public class SplashActivity extends Activity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 startActivity(homePageIntent);
+                SplashActivity.this.overridePendingTransition(R.anim.abc_popup_enter, R.anim.abc_popup_exit);
                 finish();
             }
 
@@ -75,7 +77,7 @@ public class SplashActivity extends Activity {
         });
 
         float textSize = gameTitle.getTextSize();
-        ValueAnimator textAnimation = ValueAnimator.ofFloat(textSize, (textSize * 1.2f));
+        final ValueAnimator textAnimation = ValueAnimator.ofFloat(textSize, (textSize * 1.2f));
         textAnimation.setDuration(2000);
         textAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -110,8 +112,8 @@ public class SplashActivity extends Activity {
         findViewById(R.id.activity_splash_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(homePageIntent);
-                finish();
+                textAnimation.end();
+                alphaAnimation.end();
             }
         });
 

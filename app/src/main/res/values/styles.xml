@@ -3,8 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Material.Light.NoActionBar.Fullscreen">
         <!-- Customize your theme here. -->
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
     </style>
 
 </resources>

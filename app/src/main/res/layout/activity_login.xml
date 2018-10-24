@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity"
+    android:orientation="vertical"
+    android:padding="60dp"
+    >
+
+    <TextView
+        android:id="@+id/game_title_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        android:layout_centerVertical="true"
+        android:fontFamily="@font/cinzeldecorative_bold"
+        />
+
+    <EditText
+        android:id="@+id/login_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/game_title_login"
+        android:hint="user"
+        android:inputType="text"
+        android:fontFamily="@font/cinzel_regular"/>
+
+    <EditText
+        android:id="@+id/pass_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberPassword"
+        android:hint="password"
+        android:layout_below="@id/login_field"
+        android:fontFamily="@font/cinzel_regular"/>
+
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pass_field"
+        android:text="LOGIN"
+        />
+
+    <Button
+        android:id="@+id/register_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_button"
+        android:text="REGISTRAR"
+        android:textSize="14dp"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+
+</RelativeLayout>
