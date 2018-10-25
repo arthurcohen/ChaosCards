@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">Chaos Cards</string>
+    <string name="app_name">CHAOS CARDS</string>
     <string name="subtitle">This is a fangame. The Chaos Cards game has no relation with Wizard of Legend® game.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

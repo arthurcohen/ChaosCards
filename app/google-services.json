@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "696859727485",
+    "firebase_url": "https://chaoscards-4c.firebaseio.com",
+    "project_id": "chaoscards-4c",
+    "storage_bucket": "chaoscards-4c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:696859727485:android:036086e85c4d004b",
+        "android_client_info": {
+          "package_name": "com.forcohen.chaoscards"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "696859727485-tp2alvl0qc5q00gmihiuv5lni3jelp4g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAt4kOB5R4Uk6ZwyRl-Pvx4updtuLIUi44"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
