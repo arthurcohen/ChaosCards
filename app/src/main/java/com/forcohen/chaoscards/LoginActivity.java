@@ -46,30 +46,44 @@ public class LoginActivity extends Activity {
         final String email = ((TextView)findViewById(R.id.login_field)).getText().toString();
         final String password = ((TextView)findViewById(R.id.pass_field)).getText().toString();
 
-        AlertDialog.Builder passwordDialog = new AlertDialog.Builder(this);
-        passwordDialog.setView(R.layout.fragment_password);
 
-        passwordDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        if (!email.isEmpty() && !password.isEmpty()){
+            final AlertDialog.Builder passwordDialog = new AlertDialog.Builder(this);
 
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                Toast.makeText(LoginActivity.this, "Wait", Toast.LENGTH_SHORT).show();
-                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this, "User created", Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(LoginActivity.this, "Some problem has occured", Toast.LENGTH_SHORT).show();
+            passwordDialog.setTitle("Password");
+            passwordDialog.setView(R.layout.fragment_password);
+
+            passwordDialog.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(LoginActivity.this, "Wait", Toast.LENGTH_SHORT).show();
+
+
+
+                    mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()){
+                                Toast.makeText(LoginActivity.this, "User created!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Now you can play this s*** game...", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(LoginActivity.this, "Error when creating new user.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Maybe, the user already exists. Maybe not...", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
+            });
+            passwordDialog.show();
 
-            }
-
-        });
-
-        passwordDialog.show();
+        }else{
+            AlertDialog.Builder wrongDataDialog = new AlertDialog.Builder(this);
+            wrongDataDialog.setTitle("The field email and/or password can not be empty.");
+            TextView message = new TextView(this);
+            wrongDataDialog.setView(message);
+            wrongDataDialog.setPositiveButton("Ok", null);
+            wrongDataDialog.show();
+        }
     }
 
     public void onClickLogin(View v){
