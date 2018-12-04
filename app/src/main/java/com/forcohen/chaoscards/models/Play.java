@@ -5,14 +5,16 @@ public class Play {
     private EnemyCard enemyCard;
     private Player player;
     private float damageTaken;
+    private Jokenpo play;
 
     public Play() {
     }
 
-    public Play(EnemyCard enemyCard, Player player, float damageTaken) {
+    public Play(EnemyCard enemyCard, Player player, float damageTaken, Jokenpo play) {
         this.enemyCard = enemyCard;
         this.player = player;
         this.damageTaken = damageTaken;
+        this.play = play;
     }
 
     public String getId() {
@@ -45,5 +47,13 @@ public class Play {
 
     public void setDamageTaken(float damageTaken) {
         this.damageTaken = damageTaken;
+    }
+
+    public Jokenpo getPlay() {
+        return play;
+    }
+
+    public void setPlay(Jokenpo play) {
+        this.play = play;
     }
 }
