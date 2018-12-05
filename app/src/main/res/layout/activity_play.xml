@@ -5,13 +5,80 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PlayActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="0dip"
+    android:paddingRight="30dip"
+    android:paddingLeft="30dip"
+    android:paddingBottom="30dip"
+    android:gravity="center_vertical"
+    >
 
     <ListView
         android:transcriptMode="alwaysScroll"
         android:id="@+id/plays_list"
         android:layout_width="match_parent"
-        android:layout_height="300dip"></ListView>
+        android:layout_height="1dip"
+        android:visibility="invisible"></ListView>
+
+    <TextView
+        android:id="@+id/game_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ID"
+        android:textAlignment="center"
+        android:layout_marginBottom="20dip"
+        android:textSize="15dip"
+        android:textStyle="italic"
+        android:textColor="@color/colorLight"
+        android:onClick="copyId"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SCORE"
+        android:textSize="30dip"
+        android:textAlignment="center"
+        android:layout_marginBottom="30dip"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:textAlignment="center"
+            android:id="@+id/player_score"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0"/>
+        <TextView
+            android:textAlignment="center"
+            android:id="@+id/enemy_score"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="50dip">
+        <ImageView
+            android:id="@+id/player_image"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:layout_weight="1"
+            />
+        <ImageView
+            android:id="@+id/enemy_image"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,23 +87,26 @@
 
         <Button
             android:id="@+id/rock_button"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="rock"
+            android:text="👊"
             android:onClick="onPlayClickRock"/>
 
         <Button
             android:id="@+id/paper_button"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="paper"
+            android:text="✋"
             android:onClick="onPlayClickPaper"/>
 
         <Button
             android:id="@+id/scissors_button"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="scissors"
+            android:text="✌"
             android:onClick="onPlayClickScissors"/>
 
 

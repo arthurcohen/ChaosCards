@@ -1,5 +1,9 @@
 package com.forcohen.chaoscards;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v4.widget.DrawerLayout;
 import android.app.Activity;
 import android.app.Notification;
@@ -14,6 +18,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.forcohen.chaoscards.models.Play;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,28 +48,40 @@ public class PlayActivity extends FragmentActivity {
     private Button playButtonRock;
     private Button playButtonPaper;
     private Button playButtonScissors;
+    private ImageView playerChoose;
+    private ImageView enemyChoose;
+    private TextView playerScoreView;
+    private TextView enemyScoreView;
+    private int playerScore = 0;
+    private int enemyScore = 0;
     DocumentReference trialDoc;
     FirebaseFirestore db;
     ArrayAdapter<Play> playsAdapter;
     Jokenpo choice;
     Jokenpo enemyChoice;
+    String currentTrialId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
-        playButtonRock = (Button)findViewById(R.id.rock_button);
-        playButtonPaper = (Button)findViewById(R.id.paper_button);
-        playButtonScissors = (Button)findViewById(R.id.scissors_button);
+
+        playButtonRock = findViewById(R.id.rock_button);
+        playButtonPaper = findViewById(R.id.paper_button);
+        playButtonScissors = findViewById(R.id.scissors_button);
+        playerChoose = findViewById(R.id.player_image);
+        enemyChoose = findViewById(R.id.enemy_image);
+        playerScoreView = findViewById(R.id.player_score);
+        enemyScoreView = findViewById(R.id.enemy_score);
 
         disableButtons();
 
-        String currentTrialId = null;
 
         if (getIntent().hasExtra("currentTrial")){
             currentTrialId = getIntent().getStringExtra("currentTrial");
         }
+        ((TextView)findViewById(R.id.game_id)).setText("#" + currentTrialId);
 
         Log.wtf("PLAY_TRIAL", currentTrialId);
 
@@ -203,9 +221,47 @@ public class PlayActivity extends FragmentActivity {
             if (enemyChoice == choice){
                 Toast.makeText(PlayActivity.this, "Draw", Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(PlayActivity.this, enemyChoice.toString(), Toast.LENGTH_SHORT).show();
+                if (choice == Jokenpo.ROCK){
+                    playerChoose.setImageDrawable(Drawable.createFromStream(getAssets().open("images/oncoming-fist.png"), null));
+
+                    if (enemyChoice == Jokenpo.PAPER){
+                        enemyChoose.setImageDrawable(Drawable.createFromStream(getAssets().open("images/raised-hand-with-fingers-splayed.png"), null));
+                        enemyScore++;
+                    }else if (enemyChoice == Jokenpo.SCISSORS){
+                        enemyChoose.setImageDrawable(Drawable.createFromStream(getAssets().open("images/victory-hand.png"), null));
+                        playerScore++;
+                    }
+
+                }else if (choice == Jokenpo.PAPER){
+                    playerChoose.setImageDrawable(Drawable.createFromStream(getAssets().open("images/raised-hand-with-fingers-splayed.png"), null));
+                    if (enemyChoice == Jokenpo.SCISSORS){
+                        enemyChoose.setImageDrawable(Drawable.createFromStream(getAssets().open("images/victory-hand.png"), null));
+                        enemyScore++;
+                    }else if (enemyChoice == Jokenpo.ROCK){
+                        enemyChoose.setImageDrawable(Drawable.createFromStream(getAssets().open("images/oncoming-fist.png"), null));
+                        playerScore++;
+                    }
+
+                }else{
+                    playerChoose.setImageDrawable(Drawable.createFromStream(getAssets().open("images/victory-hand.png"), null));
+                    if (enemyChoice == Jokenpo.PAPER){
+                        enemyChoose.setImageDrawable(Drawable.createFromStream(getAssets().open("images/raised-hand-with-fingers-splayed.png"), null));
+                        playerScore++;
+                    }else{
+                        enemyChoose.setImageDrawable(Drawable.createFromStream(getAssets().open("images/oncoming-fist.png"), null));
+                        enemyScore++;
+                    }
+                }
             }
-        }catch (Exception e){}
+
+        }catch (Exception e){
+            Log.i("play_filter", e.getMessage());
+        }
+
+        Log.i("play_filter", "player " + playerScore);
+        Log.i("play_filter", "enemy " + enemyScore);
+        playerScoreView.setText(playerScore);
+        enemyScoreView.setText(enemyScore);
 
         choice = null;
         enemyChoice = null;
@@ -221,5 +277,13 @@ public class PlayActivity extends FragmentActivity {
         playButtonRock.setEnabled(true);
         playButtonPaper.setEnabled(true);
         playButtonScissors.setEnabled(true);
+    }
+
+    public void copyId(View v){
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(getApplicationContext().CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("Added to clipboard", currentTrialId);
+        clipboard.setPrimaryClip(clip);
+
+        Toast.makeText(this, "Room ID copied", Toast.LENGTH_SHORT).show();
     }
 }
