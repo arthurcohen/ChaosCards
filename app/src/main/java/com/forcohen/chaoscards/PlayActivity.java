@@ -1,18 +1,16 @@
 package com.forcohen.chaoscards;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.support.v4.widget.DrawerLayout;
-import android.app.Activity;
-import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -54,17 +52,22 @@ public class PlayActivity extends FragmentActivity {
     private TextView enemyScoreView;
     private int playerScore = 0;
     private int enemyScore = 0;
+    private boolean enemyHere = false;
     DocumentReference trialDoc;
     FirebaseFirestore db;
     ArrayAdapter<Play> playsAdapter;
     Jokenpo choice;
     Jokenpo enemyChoice;
     String currentTrialId = null;
+    NotificationManager mNotificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
+
+        mNotificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
 
 
         playButtonRock = findViewById(R.id.rock_button);
@@ -137,44 +140,51 @@ public class PlayActivity extends FragmentActivity {
 
                     Log.i("play_filter", "recieved something");
 
-                    Intent intent = new Intent();
-                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
-                    Notification notification = new Notification.Builder(getApplicationContext())
-                            .setTicker("IT'S TIIIIIIIIMEEE!!!")
-                            .setContentTitle("IT'S TIIIIIIIIMEEE!!!")
-                            .setContentText("Your enemy entered in the arena")
-                            .setSmallIcon(R.drawable.ic_launcher_foreground)
-                            .setContentIntent(pendingIntent).getNotification();
-
-                    notification.flags = Notification.FLAG_AUTO_CANCEL;
-                    NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                    nm.notify(0,notification);
-
-                    if (trial != null && trial.getPlays().size() > 0){
+                    if (trial != null){
 
                         if (trial.getPlayers() != null){
 
-                            if (trial.getPlayers().size() == 2){
+                            if (!enemyHere && trial.getPlayers().size() == 2){
+                                enemyHere = true;
+
+                                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(),"channel_01")
+                                        .setSmallIcon(R.mipmap.ic_launcher)
+                                        .setContentText("Your enemy came to the battle. Go crash him out!")
+                                        .setAutoCancel(true)
+                                        .setPriority(NotificationManager.IMPORTANCE_HIGH)
+                                        .setChannelId("channel_01")
+                                        .setAutoCancel(true)
+                                        .setContentTitle("IIIIIIT's TIIIIIMEEEE!!!");
+
+                                mNotificationManager.notify(1, mBuilder.build());
+
+                                NotificationChannel channel = new NotificationChannel("channel_01", "Playback Notification", NotificationManager.IMPORTANCE_HIGH);
+
+                                assert mNotificationManager != null;
+                                mBuilder.setChannelId("channel_01");
+                                mNotificationManager.createNotificationChannel(channel);
                             }
                         }
 
-                        int howManyPlays = trial.getPlays().size() - 1;
-                        if (!trial.getPlays().get(howManyPlays).getPlayer().getPlayer().equals(localPlayer.getPlayer())){
-                            Log.i("play_filter", "enemy");
-                            Log.i("play_filter", trial.getPlays().get(howManyPlays).getPlayer().getPlayer());
+                        if (trial.getPlays().size() > 0){
+                            int howManyPlays = trial.getPlays().size() - 1;
+                            if (!trial.getPlays().get(howManyPlays).getPlayer().getPlayer().equals(localPlayer.getPlayer())){
+                                Log.i("play_filter", "enemy");
+                                Log.i("play_filter", trial.getPlays().get(howManyPlays).getPlayer().getPlayer());
 
-                            enemyChoice = trial.getPlays().get(howManyPlays).getPlay();
+                                enemyChoice = trial.getPlays().get(howManyPlays).getPlay();
 
-                            if (choice != null){
-                                compare();
-                            }
-                            enableButtons();
+                                if (choice != null){
+                                    compare();
+                                }
+                                enableButtons();
 
-                        }else{
-                            Log.i("play_filter", "player");
+                            }else{
+                                Log.i("play_filter", "player");
 
-                            if (enemyChoice != null){
-                                compare();
+                                if (enemyChoice != null){
+                                    compare();
+                                }
                             }
                         }
                     }
@@ -220,6 +230,16 @@ public class PlayActivity extends FragmentActivity {
 
             if (enemyChoice == choice){
                 Toast.makeText(PlayActivity.this, "Draw", Toast.LENGTH_SHORT).show();
+                if (choice == Jokenpo.ROCK){
+                    playerChoose.setImageDrawable(Drawable.createFromStream(getAssets().open("images/oncoming-fist.png"), null));
+                    enemyChoose.setImageDrawable(Drawable.createFromStream(getAssets().open("images/oncoming-fist.png"), null));
+                }else if(choice == Jokenpo.PAPER){
+                    playerChoose.setImageDrawable(Drawable.createFromStream(getAssets().open("images/raised-hand-with-fingers-splayed.png"), null));
+                    enemyChoose.setImageDrawable(Drawable.createFromStream(getAssets().open("images/raised-hand-with-fingers-splayed.png"), null));
+                }else{
+                    playerChoose.setImageDrawable(Drawable.createFromStream(getAssets().open("images/victory-hand.png"), null));
+                    enemyChoose.setImageDrawable(Drawable.createFromStream(getAssets().open("images/victory-hand.png"), null));
+                }
             }else{
                 if (choice == Jokenpo.ROCK){
                     playerChoose.setImageDrawable(Drawable.createFromStream(getAssets().open("images/oncoming-fist.png"), null));
@@ -260,8 +280,8 @@ public class PlayActivity extends FragmentActivity {
 
         Log.i("play_filter", "player " + playerScore);
         Log.i("play_filter", "enemy " + enemyScore);
-        playerScoreView.setText(playerScore);
-        enemyScoreView.setText(enemyScore);
+        playerScoreView.setText(String.valueOf(playerScore));
+        enemyScoreView.setText(String.valueOf(enemyScore));
 
         choice = null;
         enemyChoice = null;
