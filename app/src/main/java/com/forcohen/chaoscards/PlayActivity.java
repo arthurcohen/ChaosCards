@@ -10,6 +10,8 @@ import android.app.NotificationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
@@ -146,6 +148,14 @@ public class PlayActivity extends FragmentActivity {
 
                             if (!enemyHere && trial.getPlayers().size() == 2){
                                 enemyHere = true;
+
+                                Log.i("play_filter", "Add fragment");
+
+                                FragmentManager fm = getSupportFragmentManager();
+                                FragmentTransaction ft = fm.beginTransaction();
+                                ft.add(new ClockFragment(), "SAMPLE_FRAG");
+                                ft.commit();
+
 
                                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(),"channel_01")
                                         .setSmallIcon(R.mipmap.ic_launcher)
