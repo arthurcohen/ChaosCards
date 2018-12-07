@@ -16,10 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".HomePageActivity" />
-        <activity android:name=".PlayActivity"></activity>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait"  />
+        <activity android:name=".HomePageActivity"
+            android:screenOrientation="portrait"  />
+        <activity android:name=".PlayActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

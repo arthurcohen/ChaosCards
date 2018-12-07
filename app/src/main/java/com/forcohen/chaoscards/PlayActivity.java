@@ -70,7 +70,12 @@ public class PlayActivity extends FragmentActivity {
 
         mNotificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
+        Log.i("play_filter", "Add fragment");
 
+//        FragmentManager fm = getSupportFragmentManager();
+//        FragmentTransaction ft = fm.beginTransaction();
+//        ft.add(R.id.root_layout_play, new ClockFragment(), "SAMPLE_FRAG");
+//        ft.commit();
 
         playButtonRock = findViewById(R.id.rock_button);
         playButtonPaper = findViewById(R.id.paper_button);
@@ -149,12 +154,7 @@ public class PlayActivity extends FragmentActivity {
                             if (!enemyHere && trial.getPlayers().size() == 2){
                                 enemyHere = true;
 
-                                Log.i("play_filter", "Add fragment");
 
-                                FragmentManager fm = getSupportFragmentManager();
-                                FragmentTransaction ft = fm.beginTransaction();
-                                ft.add(new ClockFragment(), "SAMPLE_FRAG");
-                                ft.commit();
 
 
                                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(),"channel_01")

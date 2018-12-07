@@ -77,7 +77,7 @@ public class SplashActivity extends Activity {
         });
 
         float textSize = gameTitle.getTextSize();
-        final ValueAnimator textAnimation = ValueAnimator.ofFloat(textSize, (textSize * 1.2f));
+        final ValueAnimator textAnimation = ValueAnimator.ofFloat((textSize * 0.8f), textSize);
         textAnimation.setDuration(2000);
         textAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override

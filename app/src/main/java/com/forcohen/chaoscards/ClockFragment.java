@@ -18,10 +18,19 @@ public class ClockFragment extends Fragment {
     TextView clockView;
 
     public ClockFragment() {
-        clockView = getActivity().findViewById(R.id.clock_view);
 
         clock = new Timer();
         this.clock = new Timer();
+
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.clock_fragment, container, false);
+
+        clockView = view.findViewById(R.id.clock_view);
 
         clock.schedule(new TimerTask() {
             @Override
@@ -29,12 +38,7 @@ public class ClockFragment extends Fragment {
                 clockView.setText(String.valueOf(clockCounter++));
             }
         }, 0, 1000);
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.clock_fragment, container, false);
 
         return view;
     }

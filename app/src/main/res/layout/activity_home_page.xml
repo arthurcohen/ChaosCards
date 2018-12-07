@@ -7,23 +7,42 @@
     android:layout_height="match_parent"
     tools:context=".HomePageActivity"
     android:layout_marginTop="?actionBarSize"
+    android:orientation="vertical"
+    android:gravity="center"
     >
 
-    <Button
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="logout"
-        android:onClick="onLogout"/>
+        android:text="CHAOS CARDS"
+        android:textAlignment="center"
+        android:textSize="30dip"
+        android:paddingBottom="30dip"
+        android:fontFamily="@font/cinzeldecorative_bold"/>
+
 
     <EditText
         android:id="@+id/target_trial"
-        android:layout_width="100dip"
-        android:layout_height="wrap_content" />
+        android:hint="#ROOM_ID"
+        android:layout_width="200dip"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cinzel_regular"/>
+
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="200dip"
         android:layout_height="wrap_content"
         android:text="play"
-        android:onClick="onPlay"/>
+        android:onClick="onPlay"
+        android:fontFamily="@font/cinzel_regular"
+        android:layout_marginBottom="20dip"/>
 
+    <Button
+        android:layout_width="200dip"
+        android:layout_height="wrap_content"
+        android:text="logout"
+        android:fontFamily="@font/cinzel_black"
+        android:onClick="onLogout"
+        android:background="@android:color/transparent"
+        />
 
 </LinearLayout>
