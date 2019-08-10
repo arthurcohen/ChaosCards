@@ -8,6 +8,8 @@ This project was inspired by the game [Wizard of Legend](http://wizardoflegend.c
 
 At the end, I got up with a online Jokenpo game. It resembles the original game, if you really try to believe hahaha!
 
+It uses Realtime Database as a service from the [Firestore](https://firebase.google.com/docs/firestore), a [Firebase](https://firebase.google.com) flexible solution for NoSQL database.
+
 ## Running
 
 Sadly, to run this app, you will need to build the installer in the Android Studio. I will make it available in the Play Store in the future.
