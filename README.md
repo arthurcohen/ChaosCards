@@ -1,6 +1,8 @@
 # Chaos Cards
 
-A simple Android project, using Android Studio!
+A simple Android project, using Android Studio! 
+
+Developed for the Mobile Systems Development class at Federal University of Rio Grande do Norte - BR.
 
 ## Getting Started
 
